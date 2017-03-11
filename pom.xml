@@ -25,6 +25,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
             <version>LATEST</version>
@@ -34,14 +40,18 @@
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java8</artifactId>
             <version>LATEST</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>LATEST</version>
-            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>LATEST</version>
         </dependency>
 
     </dependencies>
