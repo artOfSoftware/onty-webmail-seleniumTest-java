@@ -14,40 +14,42 @@ public class MyStepDefs
 	{
 	}
 
-	@Given("^I am on the 'Login' page$")
-	public void gotoLoginPage()
+	@Given("^I am on the '(.*)' page$")
+	public void gotoLoginPage( String pageName )
 	{
-		System.out.format( "I am on the login page\n" );
+		log( "I am on the '%s' page", pageName );
 	}
 
 	@And( "^I enter valid credentials$")
 	public void enterValidCredentials()
 	{
-		System.out.format( "I enter valid credentials\n" );
+		log( "I enter valid credentials" );
 	}
 
 	@And( "^I enter invalid credentials$")
 	public void enterInvalidCredentials()
 	{
-		System.out.format( "I enter invalid credentials\n" );
+		log( "I enter invalid credentials" );
 	}
 
-	@Then( "^I should go to 'Accounts Home' page$")
-	public void checkAccountsHomePage()
+	@Then( "^I should go to '(.*)' page$")
+	public void checkAccountsHomePage( String pageName )
 	{
-		System.out.format( "I should go to 'Accounts Home' page\n" );
-	}
-
-	@Then( "^I should go to 'Login' page$")
-	public void checkLoginPage()
-	{
-		System.out.format( "I should go to 'Login' page\n" );
+		log( "I should go to '%s' page", pageName );
 	}
 
 	@Then( "^I should see error message$")
 	public void checkErrorMessage()
 	{
-		System.out.format( "Checking for error message\n" );
+		log( "Checking for error message" );
+	}
+
+
+	private void log( String format, String... args )
+	{
+		System.out.print( "### " );
+		System.out.format( format, (Object[]) args );
+		System.out.println();
 	}
 
 
