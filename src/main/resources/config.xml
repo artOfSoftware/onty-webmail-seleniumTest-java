@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+    <entry key="baseUrl">https://onty-webmail-ruby.herokuapp.com/</entry>
+    <entry key="instanceName">user1</entry>
+    <entry key="thinktimeS">2.0</entry>
+    <entry key="firefoxDriverPath">C:/dvt/Selenium/WebDrivers/geckodriver.exe</entry>
+</properties>
