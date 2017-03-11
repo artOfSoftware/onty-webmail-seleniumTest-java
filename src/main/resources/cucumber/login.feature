@@ -9,5 +9,5 @@ Feature: Login
     Given I am on the 'Login' page
     And   I enter invalid credentials
     Then  I should go to 'Login' page
-    And   I should see error message
+    Then  I should see error message
 
