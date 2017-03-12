@@ -1,13 +1,17 @@
 Feature: Login
 
-  Scenario: Login as valid user
+  User should be able to login using valid credentials.
+  If using invalid credentials, no login should happen and an error message should be displayed.
+
+  Background:
     Given I am on the 'Login' page
+
+  Scenario: Login as valid user
     And   I enter valid credentials
     Then  I should go to 'Accounts Home' page
 
   Scenario: Login as invalid user
-    Given I am on the 'Login' page
     And   I enter invalid credentials
     Then  I should go to 'Login' page
-    Then  I should see error message
+    And   I should see error message saying 'login is invalid'
 

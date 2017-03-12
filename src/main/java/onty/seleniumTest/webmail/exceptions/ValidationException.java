@@ -1,31 +1,33 @@
 package onty.seleniumTest.webmail.exceptions;
 
-public class ValidationException extends Exception {
+public class ValidationException extends TestException
+{
 
-	public static final long serialVersionUID = 710L;
+	public static final long serialVersionUID = 0L;
 
-	public ValidationException() {
-		// TODO Auto-generated constructor stub
+	public ValidationException()
+	{
+		super();
 	}
 
-	public ValidationException(String message) {
+	public ValidationException(String message)
+	{
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
-	public ValidationException(Throwable cause) {
+	public ValidationException(Throwable cause)
+	{
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
-	public ValidationException(String message, Throwable cause) {
+	public ValidationException(String message, Throwable cause)
+	{
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
-	public ValidationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public ValidationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+	{
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 }

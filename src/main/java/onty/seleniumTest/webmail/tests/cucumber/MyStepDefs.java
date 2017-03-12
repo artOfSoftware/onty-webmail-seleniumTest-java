@@ -38,12 +38,11 @@ public class MyStepDefs
 		log( "I should go to '%s' page", pageName );
 	}
 
-	@Then( "^I should see error message$")
-	public void checkErrorMessage()
+	@Then( "^I should see error message saying '(.*)'$")
+	public void checkErrorMessage( String errorMessage )
 	{
-		log( "Checking for error message" );
+		log( "Checking for error message saying '%s'", errorMessage );
 	}
-
 
 	private void log( String format, String... args )
 	{

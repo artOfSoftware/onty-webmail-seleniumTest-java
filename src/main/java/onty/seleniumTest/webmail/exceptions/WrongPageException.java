@@ -1,31 +1,32 @@
 package onty.seleniumTest.webmail.exceptions;
 
-public class WrongPageException extends Exception {
+public class WrongPageException extends TestException
+{
 
-	public static final long serialVersionUID = 71L;
+	public static final long serialVersionUID = 0L;
 	
-	public WrongPageException() {
-		// TODO Auto-generated constructor stub
+	public WrongPageException()
+	{
 	}
 
-	public WrongPageException(String message) {
+	public WrongPageException(String message)
+	{
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
-	public WrongPageException(Throwable cause) {
+	public WrongPageException(Throwable cause)
+	{
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
-	public WrongPageException(String message, Throwable cause) {
+	public WrongPageException(String message, Throwable cause)
+	{
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
-	public WrongPageException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public WrongPageException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+	{
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 }
