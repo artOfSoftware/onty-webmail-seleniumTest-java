@@ -1,5 +1,6 @@
 package onty.seleniumTest.webmail.pageObjects;
 
+import onty.seleniumTest.webmail.domainObjects.User;
 import onty.seleniumTest.webmail.utils.Config;
 import org.openqa.selenium.*;
 
@@ -37,10 +38,10 @@ public class AccountsLoginPage extends APage
 	}
 
 	// login as valid user
-	public AccountsHomePage loginAsValid( String username, String password ) throws WrongPageException
+	public AccountsHomePage loginAsValid( User user ) throws WrongPageException
 	{
-		type( fieldUsername, username );
-		type( fieldPassword, password );
+		type( fieldUsername, user.name );
+		type( fieldPassword, user.password );
 		click( buttonLogin );
 
 		waitForPageToLoad();

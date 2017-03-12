@@ -3,7 +3,8 @@ package onty.seleniumTest.webmail.domainObjects;
 /**
  * Created by onTy on 2017-02-11.
  */
-public class User {
+public class User
+{
 
 	// instance variables
 	public int id;
