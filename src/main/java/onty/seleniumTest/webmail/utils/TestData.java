@@ -13,7 +13,7 @@ public class TestData
 	public static List<User> validUsers;
 	public static List<User> invalidUsers;
 
-	public static void Init()
+	public static void init()
 	{
 		validUsers = new ArrayList<>();
 		invalidUsers = new ArrayList<>();
@@ -21,7 +21,7 @@ public class TestData
 		User u1 = new User();
 		u1.name = "onty";
 		u1.password = "toom";
-		u1.fullName = "onTy Toom";
+		u1.fullName = "onty toom";
 
 		validUsers.add( u1 );
 

@@ -1,4 +1,4 @@
-package onty.seleniumTest.webmail.tests;
+package onty.seleniumTest.webmail.tests.direct;
 
 import onty.seleniumTest.webmail.utils.*;
 
@@ -6,7 +6,7 @@ import org.junit.*;
 import org.openqa.selenium.WebDriver;
 
 
-public class ATest
+public abstract class ATest
 {
 
 	protected WebDriver driver;

@@ -15,9 +15,10 @@ public class AccountsLoginPage extends APage
 	@FindBy( id = "user_name" ) 	private WebElement fieldUsername;
 	@FindBy( id = "user_password" )	private WebElement fieldPassword;
 	@FindBy( id = "login" )     	private WebElement buttonLogin;
-	
+
+
 	// ctor
-	public AccountsLoginPage( WebDriver driver ) throws WrongPageException
+	public AccountsLoginPage( WebDriver driver )
 	{
 		super(driver);
 		
@@ -30,7 +31,7 @@ public class AccountsLoginPage extends APage
 	}
 	
 	// method to go to entry page of AUT
-	public static AccountsLoginPage Go( WebDriver driver ) throws WrongPageException
+	public static AccountsLoginPage Go( WebDriver driver )
 	{
 		driver.get( Config.baseUrl );
 		waitForPageToLoad();
@@ -38,7 +39,7 @@ public class AccountsLoginPage extends APage
 	}
 
 	// login as valid user
-	public AccountsHomePage loginAsValid( User user ) throws WrongPageException
+	public AccountsHomePage loginAsValid( User user )
 	{
 		type( fieldUsername, user.name );
 		type( fieldPassword, user.password );
@@ -48,5 +49,17 @@ public class AccountsLoginPage extends APage
 		
 		return new AccountsHomePage( driver );
 	}
-	
+
+	// login as invalid user
+	public AccountsLoginPage loginAsInvalid( User user )
+	{
+		type( fieldUsername, user.name );
+		type( fieldPassword, user.password );
+		click( buttonLogin );
+
+		waitForPageToLoad();
+
+		return new AccountsLoginPage( driver );
+	}
+
 }

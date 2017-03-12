@@ -56,7 +56,7 @@ public class NoticesSubpage extends ASubpage
 			return false;
 
 		String text = messageError.getText();
-		return text.compareTo( expectedText ) == 0;
+		return text.compareTo( "Error: " + expectedText ) == 0;
 	}
 
 }

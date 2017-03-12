@@ -51,6 +51,9 @@ public class Config {
 		}
 
 
+		TestData.init();
+
+
 	}
 
 }

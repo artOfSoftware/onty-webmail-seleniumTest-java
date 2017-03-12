@@ -33,6 +33,8 @@ public class MenuSubpage extends ASubpage
 	@FindBy( css = "a#nav-Mailboxes-folders-3" )	protected WebElement menuMailboxFoldersArchived;
 
 	@FindBy( css = "div.app-navigation-global p" )  protected WebElement textWelcome;
+	@FindBy( css = "div.app-navigation-global" )    protected WebElement textWelcome2;
+
 
 	// ctor
 	public MenuSubpage( APage owner )
@@ -41,71 +43,70 @@ public class MenuSubpage extends ASubpage
 	}
 
 
-
-	// actions on locators
-
 	// public methods to click links
-	public AccountsUsersPage clickUsers() throws WrongPageException
+	public AccountsUsersPage clickUsers()
 	{
 		owner.click( menuAccountUsers );
 		owner.waitForPageToLoad();
 		return new AccountsUsersPage( owner.driver );
 	}
 
-	public AccountsLoginPage clickLogout() throws WrongPageException
+	public AccountsLoginPage clickLogout()
 	{
 		owner.click( menuAccountLogout );
 		owner.waitForPageToLoad();
 		return new AccountsLoginPage( owner.driver );
 	}
 
-	public AccountsPasswordPage clickPassword() throws WrongPageException
+	public AccountsPasswordPage clickPassword()
 	{
 		owner.click(menuAccountPassword);
 		owner.waitForPageToLoad();
 		return new AccountsPasswordPage( owner.driver );
 	}
 
-	public MailboxesPage clickMailbox() throws WrongPageException
+	public MailboxesPage clickMailbox()
 	{
 		owner.click(menuMailbox);
 		owner.waitForPageToLoad();
 		return new MailboxesPage( owner.driver );
 	}
 
-	public MailboxesNewMessagePage clickNewMessage() throws WrongPageException
+	public MailboxesNewMessagePage clickNewMessage()
 	{
 		owner.click( menuMailboxNewMessage );
 		owner.waitForPageToLoad();
 		return new MailboxesNewMessagePage( owner.driver );
 	}
 
-	public MailboxesFoldersPage clickFolders() throws WrongPageException
+	public MailboxesFoldersPage clickFolders()
 	{
-		owner.click(menuMailboxFolders);
+		owner.click( menuMailboxFolders );
 		owner.waitForPageToLoad();
 		return new MailboxesFoldersPage( owner.driver );
 	}
 
-	public MailboxesFolderPage clickFolder( Folder.Builtin folderType ) throws WrongPageException
+	public MailboxesFolderPage clickFolder( Folder.Builtin folderType )
 	{
+		WebElement e;
 		if ( folderType == Folder.Builtin.Inbox )
-			owner.click(menuMailboxFoldersInbox);
+			e = menuMailboxFoldersInbox;
 		else if ( folderType == Folder.Builtin.Sent )
-			owner.click(menuMailboxFoldersSent);
+			e = menuMailboxFoldersSent;
 		else if ( folderType == Folder.Builtin.Archived )
-			owner.click(menuMailboxFoldersArchived);
+			e = menuMailboxFoldersArchived;
 		else
 			throw new IllegalArgumentException("Unknown folder requested");
 
+		owner.click( e );
 		owner.waitForPageToLoad();
 		return new MailboxesFolderPage( owner.driver );
 	}
 
-	public MailboxesFolderPage clickFolder( Folder folder ) throws WrongPageException
+	public MailboxesFolderPage clickFolder( Folder folder )
 	{
 		WebElement e = menuMailboxFoldersAll.findElement( By.linkText( folder.name ) );
-		owner.click(e);
+		owner.click( e );
 		owner.waitForPageToLoad();
 		return new MailboxesFolderPage( owner.driver );
 	}
@@ -118,11 +119,15 @@ public class MenuSubpage extends ASubpage
 		String welcomeText = textWelcome.getText();
 		String expectedWelcomeText = "Welcome, " + user.fullName + " (" + user.name + ")";
 
-		if ( welcomeText.compareTo(expectedWelcomeText) != 0 )
-			//throw new ValidationException("Welcome text validation failed");
-			return false;
+		return ( welcomeText.compareTo(expectedWelcomeText) == 0 );
+	}
 
-		return true;
+	public boolean checkLoggedOut()
+	{
+		String welcomeText = textWelcome2.getText();
+		String expectedWelcomeText = "Please login or create an account.";
+
+		return ( welcomeText.compareTo(expectedWelcomeText) == 0 );
 	}
 
 }
