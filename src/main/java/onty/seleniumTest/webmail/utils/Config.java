@@ -18,7 +18,7 @@ public class Config {
 	public static boolean readConfigPerformed = false;
 
 
-	public static void ReadConfig()
+	public static void init()
 	{
 		readConfigPerformed = true;
 		Properties prop = new Properties();

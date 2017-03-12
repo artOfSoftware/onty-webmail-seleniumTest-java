@@ -4,19 +4,19 @@ import onty.seleniumTest.webmail.exceptions.WrongPageException;
 import org.openqa.selenium.WebDriver;
 
 
-public class MailboxesFoldersPage extends APage {
-
-//	public By locFieldUsername = By.id("user_name");
-//	public By locFieldPassword = By.id("user_password");
-//	public By locButtonLogin = By.id("login");
+public class MailboxesFoldersPage extends APage
+{
 
 
-	public MailboxesFoldersPage(WebDriver driver ) throws WrongPageException {
+	public MailboxesFoldersPage(WebDriver driver ) throws WrongPageException
+	{
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("accounts/home") )
+		if ( ! driver.getCurrentUrl().contains("mailboxes/folders") )
 			throw new WrongPageException();
+
+		init();
 	}
 	
 

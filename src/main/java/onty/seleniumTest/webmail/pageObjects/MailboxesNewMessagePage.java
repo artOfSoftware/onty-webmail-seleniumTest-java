@@ -4,16 +4,16 @@ import onty.seleniumTest.webmail.exceptions.WrongPageException;
 import org.openqa.selenium.WebDriver;
 
 
-public class MailboxesMessagePage extends APage
+public class MailboxesNewMessagePage extends APage
 {
 
 
-	public MailboxesMessagePage( WebDriver driver ) throws WrongPageException
+	public MailboxesNewMessagePage(WebDriver driver ) throws WrongPageException
 	{
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("mailboxes/message") )
+		if ( ! driver.getCurrentUrl().contains("mailboxes/newmessage") )
 			throw new WrongPageException();
 
 		init();
