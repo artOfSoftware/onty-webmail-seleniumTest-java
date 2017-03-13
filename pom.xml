@@ -19,7 +19,7 @@
     </properties>
 
     <scm>
-        <connection>scm:git:file://localhost/C:/p/com.ontytoom.com/code/tests/onTy-Webmail-SeleniumTest (java)</connection>
+        <connection>scm:git:file://localhost/C:/p/com.ontytoom.webmail/code/tests/onTy-Webmail-SeleniumTest (java)</connection>
     </scm>
 
     <dependencies>

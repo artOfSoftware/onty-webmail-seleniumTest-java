@@ -6,7 +6,7 @@ import com.ontytoom.webmail.seleniumTest.pageObjects.*;
 import com.ontytoom.webmail.seleniumTest.utils.*;
 
 import org.junit.*;
-
+import static org.junit.Assert.*;
 
 
 public class LoginTests extends ATest
