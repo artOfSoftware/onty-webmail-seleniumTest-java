@@ -100,7 +100,7 @@ public class AccountSteps
 	@When( "^I enter valid new account information:$")
 	public void signupValid( DataTable data )
 	{
-		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get(1) ) );
+		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get(1).getCells().toArray() ) );
 
 		// only valid on signup page
 		if ( ! ( lastPage instanceof AccountsSignupPage ) )
@@ -123,7 +123,7 @@ public class AccountSteps
 	@When( "^I enter valid new message information:$")
 	public void newMessageValid( DataTable data )
 	{
-		manager.log.infoFormat( "I enter valid new message info: %s", ArrayUtils.toString( data.getGherkinRows().get(1) ) );
+		manager.log.infoFormat( "I enter valid new message info: %s", ArrayUtils.toString( data.getGherkinRows().get(1).getCells().toArray() ) );
 
 		// only valid on signup page
 		if ( ! ( lastPage instanceof MailboxesNewMessagePage ) )
