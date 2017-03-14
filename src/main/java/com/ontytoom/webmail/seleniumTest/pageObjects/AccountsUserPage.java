@@ -30,7 +30,7 @@ public class AccountsUserPage extends APage
 	}
 
 
-	public boolean checkText( User u )
+	public boolean checkUserInfo( User u )
 	{
 		boolean okUserName, okEmail;
 

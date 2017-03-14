@@ -31,7 +31,7 @@ public class AccountTests extends ATest
 
 		user = users.clickLinkUser( u );
 
-		assertTrue( user.checkText( u ) );
+		assertTrue( user.checkUserInfo( u ) );
 	}
 
 	@Test

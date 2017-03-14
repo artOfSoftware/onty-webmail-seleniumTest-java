@@ -6,8 +6,7 @@ import com.ontytoom.webmail.seleniumTest.pageObjects.*;
 import com.ontytoom.webmail.seleniumTest.utils.*;
 import static com.ontytoom.webmail.seleniumTest.utils.StringUtil.*;
 
-import cucumber.api.DataTable;
-import cucumber.api.PendingException;
+import cucumber.api.*;
 import cucumber.api.java.*;
 import cucumber.api.java.en.*;
 import gherkin.formatter.model.DataTableRow;
@@ -30,14 +29,16 @@ public class AccountSteps
 	private AccountsLoginPage  loginPage;
 	private AccountsSignupPage signupPage;
 	private AccountsHomePage   homePage;
+	private MailboxesPage      mailboxPage;
+	private MailboxesNewMessagePage newMessagePage;
 	private APage              lastPage;
 
 
 	// ctor and dtor
 
-	public AccountSteps()
-	{
-	}
+//	public AccountSteps()
+//	{
+//	}
 
 	// cucumber Before and After methods
 
@@ -83,10 +84,23 @@ public class AccountSteps
 		lastPage = signupPage;
 	}
 
+	@Given( "^I want to send a message$" )
+	public void gotoSendMessage()
+	{
+		manager.log.infoFormat( "I want to send a message" );
+
+		// only valid when user is logged in - dont yet have a way to check
+//		if ( ! ( lastPage instanceof AccountsLoginPage ) )
+//			throw new TestException( "Create account is only allowed from the login page" );
+
+		newMessagePage = lastPage.menu.clickNewMessage();
+		lastPage = newMessagePage;
+	}
+
 	@When( "^I enter valid new account information:$")
 	public void signupValid( DataTable data )
 	{
-		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get(0) ) );
+		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get(1) ) );
 
 		// only valid on signup page
 		if ( ! ( lastPage instanceof AccountsSignupPage ) )
@@ -104,6 +118,29 @@ public class AccountSteps
 
 		homePage = signupPage.signupValid( u );
 		lastPage = homePage;
+	}
+
+	@When( "^I enter valid new message information:$")
+	public void newMessageValid( DataTable data )
+	{
+		manager.log.infoFormat( "I enter valid new message info: %s", ArrayUtils.toString( data.getGherkinRows().get(1) ) );
+
+		// only valid on signup page
+		if ( ! ( lastPage instanceof MailboxesNewMessagePage ) )
+			throw new TestException( "Sending a message is only valid on New Message page" );
+
+		List<DataTableRow> rows = data.getGherkinRows();
+		List<String> rowAsStrings = rows.get( 1 ).getCells();
+
+		String to      = runMacros( rowAsStrings.get( 0 ) );
+		String subject = runMacros( rowAsStrings.get( 1 ) );
+		String text    = runMacros( rowAsStrings.get( 2 ) );
+
+		newMessagePage.selectTo( to );
+		newMessagePage.enterSubjectAndText( subject, text );
+		mailboxPage = newMessagePage.clickSend();
+
+		lastPage = mailboxPage;
 	}
 
 	@When( "^I enter (.+) credentials$")
