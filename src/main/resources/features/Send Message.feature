@@ -15,4 +15,9 @@ Feature: Send Message
     | New User | Hello {rs} | This is my message {rs} |
     Then  I should find myself on 'Mailbox' page
     And   I should see message saying 'successfully sent'
-
+    When  I want to see the Sent folder
+    Then  I should find myself on 'Folder' page
+    Then  I should see message listed
+    When  I want to see the message
+    Then  I should find myself on 'Message' page
+    Then  I should see the details of the message
