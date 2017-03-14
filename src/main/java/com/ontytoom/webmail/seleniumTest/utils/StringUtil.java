@@ -27,7 +27,7 @@ public class StringUtil
 		if ( length < 1 || length > 1024 )
 			throw new IllegalArgumentException( "length must be [1,1024]" );
 
-		StringBuffer sb = new StringBuffer(  );
+		StringBuffer sb = new StringBuffer();
 		for ( int i = 0; i < length; i++ )
 		{
 			char c = (char)MathUtil.makeRandomInt( (int)'a', (int)'z' );

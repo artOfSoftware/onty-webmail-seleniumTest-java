@@ -26,10 +26,10 @@ public class MailboxesNewMessagePage extends APage
 		if ( ! checkIfUrlContainsWait("mailboxes/new") )
 			throw new WrongPageException("Expecting New Message page");
 
+		init();
+
 		if ( ! checkH1Contains( "New Message" ) )
 			throw new ValidationException( "H1 text is wrong for New Message page" );
-
-		init();
 	}
 
 

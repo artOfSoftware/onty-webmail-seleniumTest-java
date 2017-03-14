@@ -8,7 +8,7 @@ Feature: Login
 
   Scenario: Login as valid user
     When  I enter valid credentials
-    Then  I should find myself on 'Accounts Home' page
+    Then  I should find myself on 'Account' page
 
   Scenario: Try to login as invalid user
     When  I enter invalid credentials

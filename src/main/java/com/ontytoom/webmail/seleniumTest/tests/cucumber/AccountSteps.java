@@ -173,12 +173,17 @@ public class AccountSteps
 		if ( areEqualIgnoreCase( pageName, "login" ) )
 		{
 			if ( ! ( lastPage instanceof AccountsLoginPage ) )
-				throw new WrongPageException();
+				throw new WrongPageException( "I should find myself on Login page, but am on " + lastPage.getClass().getName() );
 		}
-		else if ( areEqualIgnoreCase( pageName, "accounts home" ) )
+		else if ( areEqualIgnoreCase( pageName, "account" ) )
 		{
 			if ( ! ( lastPage instanceof AccountsHomePage ) )
-				throw new WrongPageException();
+				throw new WrongPageException( "I should find myself on Account page, but am on " + lastPage.getClass().getName() );
+		}
+		else if ( areEqualIgnoreCase( pageName, "mailbox" ) )
+		{
+			if ( ! ( lastPage instanceof MailboxesPage ) )
+				throw new WrongPageException( "I should find myself on Mailbox page, but am on " + lastPage.getClass().getName() );
 		}
 		else
 			throw new NotImplementedException();

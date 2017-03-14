@@ -28,6 +28,8 @@ public class AccountsSignupPage extends APage
 		if ( ! checkIfUrlContainsWait("accounts/signup") )
 			throw new WrongPageException();
 
+		init();
+
 		if ( checkH1Contains( "Account Signup" ) )
 		{
 			String h1 = "";
@@ -35,8 +37,6 @@ public class AccountsSignupPage extends APage
 				h1 = textH1.get( 0 ).getText();
 			throw new ValidationException( "H1 text is wrong on Signup page. got: " + h1 );
 		}
-
-		init();
 	}
 
 
