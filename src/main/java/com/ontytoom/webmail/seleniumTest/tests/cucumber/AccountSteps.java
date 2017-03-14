@@ -59,15 +59,17 @@ public class AccountSteps
 	// cucumber steps
 
 	@Given( "^I am on the '(.+)' page$" )
-	public void gotoPage(String pageName)
+	public void gotoInitialPage(String pageName)
 	{
 		manager.log.infoFormat( "I am on the '%s' page", pageName );
 
 		if ( areEqualIgnoreCase( pageName, "login" ) )
 		{
 			loginPage = AccountsLoginPage.Go( manager.driver );
-			currentPage = loginPage;
-		} else
+			manager.setPage( loginPage );
+			//currentPage = loginPage;
+		}
+		else
 			throw new NotImplementedException();
 	}
 
