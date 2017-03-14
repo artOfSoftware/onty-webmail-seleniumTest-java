@@ -30,7 +30,7 @@ public class AccountsSignupPage extends APage
 
 		init();
 
-		if ( checkH1Contains( "Account Signup" ) )
+		if ( ! checkH1Contains( "Account Signup" ) )
 		{
 			String h1 = "";
 			if ( textH1 != null && textH1.size() > 0 )

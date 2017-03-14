@@ -19,20 +19,20 @@ import java.util.List;
  */
 
 
-public class AccountSteps
+public class AllGlue
 {
 
 	private TestStateManager manager;
-	private APage currentPage;
+//	private APage currentPage;
 
-	private AccountsLoginPage loginPage;
-	private AccountsSignupPage signupPage;
-	private AccountsHomePage homePage;
-	private MailboxesPage mailboxPage;
-	private MailboxesNewMessagePage newMessagePage;
-	private MailboxesFolderPage folderPage;
-	private MailboxesMessagePage messagePage;
-
+//	private AccountsLoginPage loginPage;
+//	private AccountsSignupPage signupPage;
+//	private AccountsHomePage homePage;
+//	private MailboxesPage mailboxPage;
+//	private MailboxesNewMessagePage newMessagePage;
+//	private MailboxesFolderPage folderPage;
+//	private MailboxesMessagePage messagePage;
+//
 	private Message message;
 
 	// ctor and dtor
@@ -65,7 +65,7 @@ public class AccountSteps
 
 		if ( areEqualIgnoreCase( pageName, "login" ) )
 		{
-			loginPage = AccountsLoginPage.Go( manager.driver );
+			AccountsLoginPage loginPage = AccountsLoginPage.Go( manager.driver );
 			manager.setPage( loginPage );
 			//currentPage = loginPage;
 		}
@@ -79,11 +79,14 @@ public class AccountSteps
 		manager.log.infoFormat( "I want to signup" );
 
 		// only valid on login page
-		if ( !(currentPage instanceof AccountsLoginPage) )
+		//if ( !(currentPage instanceof AccountsLoginPage) )
+		if ( ! manager.isPage( AccountsLoginPage.class ) )
 			throw new WrongTestStateException( "Create account is only allowed from the Login page" );
+		AccountsLoginPage loginPage = manager.getPage();
 
-		signupPage = loginPage.clickCreateAccount();
-		currentPage = signupPage;
+		AccountsSignupPage signupPage = loginPage.clickCreateAccount();
+		//currentPage = signupPage;
+		manager.setPage( signupPage );
 	}
 
 	@Given( "^I want to send a message$" )
@@ -95,8 +98,11 @@ public class AccountSteps
 //		if ( ! ( lastPage instanceof AccountsLoginPage ) )
 //			throw new TestException( "Create account is only allowed from the login page" );
 
-		newMessagePage = currentPage.menu.clickNewMessage();
-		currentPage = newMessagePage;
+		APage anyPage = manager.getPage();
+
+		MailboxesNewMessagePage newMessagePage = anyPage.menu.clickNewMessage();
+		//currentPage = newMessagePage;
+		manager.setPage( newMessagePage );
 	}
 
 	@When( "^I enter valid new account information:$" )
@@ -105,7 +111,8 @@ public class AccountSteps
 		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get( 1 ).getCells().toArray() ) );
 
 		// only valid on signup page
-		if ( !(currentPage instanceof AccountsSignupPage) )
+		if ( ! manager.isPage( AccountsSignupPage.class ) )
+		//	if ( !(currentPage instanceof AccountsSignupPage) )
 			throw new WrongTestStateException( "Signup is only allowed from the Signup page" );
 
 		//HashMap<String,String> map = data.getTableConverter().toMap( data, "".getClass(), "".getClass() );
@@ -118,35 +125,42 @@ public class AccountSteps
 		u.email = runMacros( rowAsStrings.get( 2 ) );
 		u.password = runMacros( rowAsStrings.get( 3 ) );
 
-		homePage = signupPage.signupValid( u );
-		currentPage = homePage;
+		AccountsSignupPage signupPage = manager.getPage();
+
+		AccountsHomePage homePage = signupPage.signupValid( u );
+
+		//currentPage = homePage;
+		manager.setPage( homePage );
 	}
 
 	@When( "^I enter valid new message information:$" )
-	public void newMessageValid(DataTable data)
+	public void newMessageValid( DataTable data)
 	{
 		manager.log.infoFormat( "I enter valid new message info: %s", ArrayUtils.toString( data.getGherkinRows().get( 1 ).getCells().toArray() ) );
 
 		// only valid on signup page
-		if ( !(currentPage instanceof MailboxesNewMessagePage) )
+		if ( ! manager.isPage(  MailboxesNewMessagePage.class ) )
+		//	if ( !(currentPage instanceof MailboxesNewMessagePage) )
 			throw new WrongTestStateException( "Sending a message is only valid on New Message page" );
 
 		List<DataTableRow> rows = data.getGherkinRows();
 		List<String> rowAsStrings = rows.get( 1 ).getCells();
 
-		String to = runMacros( rowAsStrings.get( 0 ) );
+		String to      = runMacros( rowAsStrings.get( 0 ) );
 		String subject = runMacros( rowAsStrings.get( 1 ) );
-		String text = runMacros( rowAsStrings.get( 2 ) );
+		String text    = runMacros( rowAsStrings.get( 2 ) );
+
+		MailboxesNewMessagePage newMessagePage = manager.getPage();
 
 		newMessagePage.selectTo( to );
 		newMessagePage.enterSubjectAndText( subject, text );
-		mailboxPage = newMessagePage.clickSend();
+		MailboxesPage mailboxPage = newMessagePage.clickSend();
 
 		message = new Message();
 		message.subject = subject;
 		message.text = text;
 
-		currentPage = mailboxPage;
+		manager.setPage( mailboxPage );
 	}
 
 	@When( "^I enter (.+) credentials$" )
@@ -154,46 +168,50 @@ public class AccountSteps
 	{
 		manager.log.infoFormat( "I enter %s credentials", credentialsType );
 
+		AccountsLoginPage loginPage = manager.getPage();
+
 		if ( areEqualIgnoreCase( credentialsType, "valid" ) )
 		{
 			User u = TestData.validUsers.get( 0 );
-			homePage = loginPage.loginAsValid( u );
-			currentPage = homePage;
-		} else if ( areEqualIgnoreCase( credentialsType, "invalid" ) )
+			AccountsHomePage homePage = loginPage.loginAsValid( u );
+			manager.setPage( homePage );
+		}
+		else if ( areEqualIgnoreCase( credentialsType, "invalid" ) )
 		{
 			User u = TestData.invalidUsers.get( 0 );
 			loginPage = loginPage.loginAsInvalid( u );
-			currentPage = loginPage;
-		} else
+			manager.setPage( loginPage );
+		}
+		else
 			throw new NotImplementedException();
 
 	}
 
 	@Then( "^I should find myself on '(.+)' page$" )
-	public void checkCurrentPage(String pageName)
+	public void checkCurrentPage( String pageName )
 	{
 		manager.log.infoFormat( "I should find myself on '%s' page", pageName );
 
 		if ( areEqualIgnoreCase( pageName, "login" ) )
 		{
-			if ( !(currentPage instanceof AccountsLoginPage) )
-				throw new WrongPageException( "I should find myself on Login page, but am on " + currentPage.getClass().getName() );
+			if ( !manager.isPage( AccountsLoginPage.class ) )
+				throw new WrongPageException( "I should find myself on Login page ");   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "account" ) )
 		{
-			if ( !(currentPage instanceof AccountsHomePage) )
-				throw new WrongPageException( "I should find myself on Account page, but am on " + currentPage.getClass().getName() );
+			if ( !manager.isPage( AccountsHomePage.class ) )
+				throw new WrongPageException( "I should find myself on Account page");   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "mailbox" ) )
 		{
-			if ( !(currentPage instanceof MailboxesPage) )
-				throw new WrongPageException( "I should find myself on Mailbox page, but am on " + currentPage.getClass().getName() );
+			if ( !manager.isPage( MailboxesPage.class ) )
+				throw new WrongPageException( "I should find myself on Mailbox page");   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "folder" ) )
 		{
-			if ( !(currentPage instanceof MailboxesFolderPage) )
-				throw new WrongPageException( "I should find myself on Folder page, but am on " + currentPage.getClass().getName() );
+			if ( !manager.isPage( MailboxesFolderPage.class ) )
+				throw new WrongPageException( "I should find myself on Folder page");   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "message" ) )
 		{
-			if ( !(currentPage instanceof MailboxesMessagePage) )
-				throw new WrongPageException( "I should find myself on Message page, but am on " + currentPage.getClass().getName() );
+			if ( !manager.isPage( MailboxesMessagePage.class ) )
+				throw new WrongPageException( "I should find myself on Message page");   //, but am on " + currentPage.getClass().getName() );
 		} else
 			throw new NotImplementedException();
 	}
@@ -203,7 +221,9 @@ public class AccountSteps
 	{
 		manager.log.infoFormat( "Checking for error message saying '%s'", errorMessage );
 
-		if ( !currentPage.notices.checkErrorTextContains( errorMessage ) )
+		APage anyPage = manager.getPage();
+
+		if ( !anyPage.notices.checkErrorTextContains( errorMessage ) )
 			throw new ValidationException( "Expected error text not found" );
 	}
 
@@ -212,7 +232,9 @@ public class AccountSteps
 	{
 		manager.log.infoFormat( "Checking for notice message saying '%s'", noticeMessage );
 
-		if ( !currentPage.notices.checkNoticeTextContains( noticeMessage ) )
+		APage anyPage = manager.getPage();
+
+		if ( !anyPage.notices.checkNoticeTextContains( noticeMessage ) )
 			throw new ValidationException( "Expected error text not found" );
 	}
 
@@ -221,10 +243,12 @@ public class AccountSteps
 	{
 		manager.log.infoFormat( "I want to see the %s folder", folderName );
 
-		Folder.Builtin folder = Folder.Builtin.valueOf( folderName );
-		folderPage = currentPage.menu.clickFolder( folder );
+		APage anyPage = manager.getPage();
 
-		currentPage = folderPage;
+		Folder.Builtin folder = Folder.Builtin.valueOf( folderName );
+		MailboxesFolderPage folderPage = anyPage.menu.clickFolder( folder );
+
+		manager.setPage( folderPage );
 	}
 
 	@Then( "^I should see message listed$" )
@@ -233,12 +257,14 @@ public class AccountSteps
 		manager.log.infoFormat( "I should see message listed" );
 
 		// only makes sense on Folder page
-		if ( !(currentPage instanceof MailboxesFolderPage) )
+		if ( !manager.isPage( MailboxesFolderPage.class ) )
 			throw new WrongTestStateException( "to check if Message is listed we must be on Folder page" );
 
 		// make sure a previous step left us a message object
 		if ( message == null )
 			throw new TestException( "no Message object is available" );
+
+		MailboxesFolderPage folderPage = manager.getPage();
 
 		if ( !folderPage.checkIsMessageListed( message ) )
 			throw new ValidationException( "message is not listed" );
@@ -251,11 +277,13 @@ public class AccountSteps
 		manager.log.infoFormat( "I want to see the message" );
 
 		// only makes sense on Folder page
-		if ( !(currentPage instanceof MailboxesFolderPage) )
+		if ( !manager.isPage( MailboxesFolderPage.class ) )
 			throw new WrongTestStateException( "to see the Message we must be on Folder page" );
 
-		messagePage = folderPage.clickReadMessage( message );
-		currentPage = messagePage;
+		MailboxesFolderPage folderPage = manager.getPage();
+
+		MailboxesMessagePage messagePage = folderPage.clickReadMessage( message );
+		manager.setPage( messagePage );
 	}
 
 	@Then( "^I should see the details of the message$" )
@@ -264,8 +292,10 @@ public class AccountSteps
 		manager.log.infoFormat( "I should see the details of the message" );
 
 		// only makes sense on Folder page
-		if ( !(currentPage instanceof MailboxesMessagePage) )
+		if ( !manager.isPage( MailboxesMessagePage.class ) )
 			throw new WrongTestStateException( "to check Message details we must be on Message page" );
+
+		MailboxesMessagePage messagePage = manager.getPage();
 
 		if ( ! messagePage.checkMessageDetails( message ) )
 			throw new ValidationException( "Message details are wrong" );

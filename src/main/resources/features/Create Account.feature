@@ -15,6 +15,6 @@ Feature: Create Account
     When  I enter valid new account information:
     | user name | full name | email             | password |
     | abc_{rs}  | Ab Bc {rs}| abc_{rs}@here.com | abc      |
-    Then  I should find myself on 'Accounts Home' page
+    Then  I should find myself on 'Account' page
     And   I should see message saying 'created'
 
