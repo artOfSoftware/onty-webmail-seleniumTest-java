@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 public abstract class ATest
 {
 
+	protected TestStateManager manager;
 	protected WebDriver driver;
 
 
@@ -16,15 +17,15 @@ public abstract class ATest
 	public void setup()
 	{
 		System.out.println("setup is running");
-		Config.init();
-		driver = WebDriverFactory.CreateDriver();
+		manager = new TestStateManager("JUnit tests");
+		driver = manager.driver;
 	}
 
 	@After
 	public void teardown()
 	{
 		System.out.println("teardown is running");
-		driver.quit();
+		manager.finish();
 	}
 
 }

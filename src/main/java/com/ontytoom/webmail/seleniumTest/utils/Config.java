@@ -6,7 +6,8 @@ import java.util.Properties;
 /**
  * Created by onTy on 2017-02-11.
  */
-public class Config {
+public class Config
+{
 
 	public static String baseUrl = "https://onty-webmail-ruby.herokuapp.com/";
 	public static double thinktimeS = 1.0;
@@ -14,47 +15,53 @@ public class Config {
 	public static String instanceName = "default_instance_name";
 	public static String firefoxDriverPath = "C:/dvt/Selenium/WebDrivers/geckodriver.exe";
 
-	public static boolean readConfigPerformed = false;
+	private static boolean isInitialized = false;
+	private static final Object sync = new Object();
 
 
 	public static void init()
 	{
-		readConfigPerformed = true;
-		Properties prop = new Properties();
+		if ( isInitialized )
+			return;
 
-		try
+		synchronized ( sync )
 		{
-			FileInputStream fis = new FileInputStream("config.xml");
-			prop.loadFromXML(fis);
+			if ( isInitialized )
+				return;
 
-//			System.out.println("Properties:");
-//			prop.list(System.out);
+			Properties prop = new Properties();
 
-			if ( prop.containsKey("baseUrl"))
-				baseUrl = prop.getProperty("baseUrl");
+			try
+			{
+				FileInputStream fis = new FileInputStream( "config.xml" );
+				prop.loadFromXML( fis );
 
-			if ( prop.containsKey("thinktimeS"))
-				thinktimeS = Double.parseDouble( prop.getProperty("thinktimeS") );
+				if ( prop.containsKey( "baseUrl" ) )
+					baseUrl = prop.getProperty( "baseUrl" );
 
-			if ( prop.containsKey("timeoutS"))
-				timeoutS = Double.parseDouble( prop.getProperty("timeoutS") );
+				if ( prop.containsKey( "thinktimeS" ) )
+					thinktimeS = Double.parseDouble( prop.getProperty( "thinktimeS" ) );
 
-			if ( prop.containsKey("instanceName"))
-				instanceName = prop.getProperty("instanceName");
+				if ( prop.containsKey( "timeoutS" ) )
+					timeoutS = Double.parseDouble( prop.getProperty( "timeoutS" ) );
 
-			if ( prop.containsKey("firefoxDriverPath"))
-				firefoxDriverPath = prop.getProperty("firefoxDriverPath");
+				if ( prop.containsKey( "instanceName" ) )
+					instanceName = prop.getProperty( "instanceName" );
 
+				if ( prop.containsKey( "firefoxDriverPath" ) )
+					firefoxDriverPath = prop.getProperty( "firefoxDriverPath" );
+
+			}
+			catch ( Exception ex )
+			{
+				ex.printStackTrace();
+				System.err.println( "Count not read the config.xml file." );
+			}
+
+			TestData.init();
+
+			isInitialized = true;
 		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace();
-			System.err.println("Count not read the config.xml file.");
-		}
-
-
-		TestData.init();
-
 
 	}
 

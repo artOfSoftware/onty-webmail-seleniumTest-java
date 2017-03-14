@@ -51,4 +51,13 @@ public class NoticesSubpage extends ASubpage
 		return text.compareTo( "Error: " + expectedText ) == 0;
 	}
 
+	public boolean checkErrorTextContains( String expectedTextSubstring )
+	{
+		if ( !checkErrorPresent() )
+			return false;
+
+		String text = messageError.getText().toLowerCase();
+		return text.contains( expectedTextSubstring.toLowerCase() );
+	}
+
 }

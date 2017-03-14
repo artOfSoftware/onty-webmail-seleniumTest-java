@@ -7,6 +7,7 @@ public class WrongPageException extends TestException
 	
 	public WrongPageException()
 	{
+		super();
 	}
 
 	public WrongPageException(String message)

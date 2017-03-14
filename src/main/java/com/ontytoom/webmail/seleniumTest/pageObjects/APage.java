@@ -40,11 +40,16 @@ public class APage
 	{
 		PageFactory.initElements( driver, this );
 
-		menu = new MenuSubpage( this );
-		notices = new NoticesSubpage( this );
+		this.menu    = new MenuSubpage( this );
+		this.notices = new NoticesSubpage( this );
 	}
 
-	protected static void waitForPageToLoad( double sleepS )
+	public Class getCurrentPageType()
+	{
+		return this.getClass();
+	}
+
+	public static void waitForPageToLoad( double sleepS )
 	{
 		SleepUtil.sleep( sleepS );
 	}
