@@ -15,6 +15,7 @@ public class AccountsLoginPage extends APage
 	@FindBy( id = "user_name" ) 	private WebElement fieldUsername;
 	@FindBy( id = "user_password" )	private WebElement fieldPassword;
 	@FindBy( id = "login" )     	private WebElement buttonLogin;
+	@FindBy( id = "signup" )     	private WebElement linkSignup;
 
 
 	// ctor
@@ -61,6 +62,16 @@ public class AccountsLoginPage extends APage
 
 		return new AccountsLoginPage( driver );
 	}
+
+	// create account
+	public AccountsSignupPage clickCreateAccount()
+	{
+		click( linkSignup );
+		waitForPageToLoad();
+		return new AccountsSignupPage( driver );
+	}
+
+	// validation
 
 	public boolean checkMessagesInvalidLogin()
 	{

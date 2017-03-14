@@ -23,7 +23,7 @@ public class AccountsUserPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! checkIfUrlMatchesWait( ".*/accounts/([\\d]+)/user", Config.timeoutS ) )
+		if ( ! checkIfUrlMatchesWait( ".*/accounts/([\\d]+)/user" ) )
 			throw new WrongPageException();
 
 		init();

@@ -36,5 +36,14 @@ public class StringUtil
 		return sb.toString();
 	}
 
+	public static String runMacros( String s )
+	{
+		if ( s.contains( "{rs}" ) )
+		{
+			s = s.replace( "{rs}", makeRandomString( 10 ) );
+		}
+
+		return s;
+	}
 
 }

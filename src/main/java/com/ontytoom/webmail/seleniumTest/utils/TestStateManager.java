@@ -10,10 +10,12 @@ public class TestStateManager
 
 	public WebDriver driver;
 	public String contextName;
+	public MyLogger log;
 
 	public TestStateManager( String contextName )
 	{
 		this.contextName = contextName;
+		this.log = new MyLogger( contextName );
 		Config.init();
 		createDriver();
 	}

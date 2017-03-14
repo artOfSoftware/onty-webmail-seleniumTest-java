@@ -28,13 +28,13 @@ public class NoticesSubpage extends ASubpage
 		return messageNotice != null;
 	}
 
-	public boolean checkNoticeText( String expectedText )
+	public boolean checkNoticeTextContains( String expectedTextSubstring )
 	{
 		if ( !checkNoticePresent() )
 			return false;
 
-		String text = messageNotice.getText();
-		return text.compareTo( expectedText ) == 0;
+		String text = messageNotice.getText().toLowerCase();
+		return text.contains( expectedTextSubstring.toLowerCase() );
 	}
 
 	public boolean checkErrorPresent()
@@ -59,5 +59,6 @@ public class NoticesSubpage extends ASubpage
 		String text = messageError.getText().toLowerCase();
 		return text.contains( expectedTextSubstring.toLowerCase() );
 	}
+
 
 }

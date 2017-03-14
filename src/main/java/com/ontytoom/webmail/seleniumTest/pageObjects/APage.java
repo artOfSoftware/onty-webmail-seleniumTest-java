@@ -8,6 +8,8 @@ import org.openqa.selenium.support.*;
 import org.openqa.selenium.support.ui.*;
 import java.util.*;
 
+import static com.ontytoom.webmail.seleniumTest.utils.StringUtil.areEqual;
+
 
 public class APage
 {
@@ -116,9 +118,9 @@ public class APage
 
 	// validation methods
 
-	public boolean checkIfUrlContainsWait( String expectedUrlContains, double timeoutS )
+	public boolean checkIfUrlContainsWait( String expectedUrlContains )
 	{
-		WebDriverWait wait = new WebDriverWait( driver, (long)timeoutS );
+		WebDriverWait wait = new WebDriverWait( driver, (long)Config.timeoutS );
 		try
 		{
 			wait.until( ExpectedConditions.urlContains(expectedUrlContains) );
@@ -130,9 +132,9 @@ public class APage
 		}
 	}
 
-	public boolean checkIfUrlMatchesWait( String expectedUrlMatches, double timeoutS )
+	public boolean checkIfUrlMatchesWait( String expectedUrlMatches )
 	{
-		WebDriverWait wait = new WebDriverWait( driver, (long)timeoutS );
+		WebDriverWait wait = new WebDriverWait( driver, (long)Config.timeoutS );
 		try
 		{
 			wait.until(ExpectedConditions.urlMatches(expectedUrlMatches));
@@ -142,6 +144,14 @@ public class APage
 		{
 			return false;
 		}
+	}
+
+	public boolean checkH1Contains( String text )
+	{
+		if ( textH1 == null || textH1.size() < 1 )
+			return false;
+
+		return textH1.get(0).getText().contains( text );
 	}
 
 }
