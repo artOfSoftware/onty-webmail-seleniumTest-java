@@ -26,10 +26,10 @@ public class MenuSubpage extends ASubpage
 	@FindBy( css = "a#nav-Mailboxes-new-message" )	protected WebElement menuMailboxNewMessage;
 	@FindBy( css = "a#nav-Mailboxes-folders" )  	protected WebElement menuMailboxFolders;
 
-	@FindBy( css = "a[id^='nav-Mailboxes-folders-1']" )    protected WebElement menuMailboxFoldersAll;
-	@FindBy( css = "a#nav-Mailboxes-folders-1" )    protected WebElement menuMailboxFoldersInbox;
-	@FindBy( css = "a#nav-Mailboxes-folders-2" )	protected WebElement menuMailboxFoldersSent;
-	@FindBy( css = "a#nav-Mailboxes-folders-3" )	protected WebElement menuMailboxFoldersArchived;
+	@FindBy( css = "a[id^='nav-mailboxes-view-folder-']" ) protected WebElement menuMailboxFoldersAll;
+	@FindBy( css = "a#nav-mailboxes-view-folder-1" )    protected WebElement menuMailboxFoldersInbox;
+	@FindBy( css = "a#nav-mailboxes-view-folder-2" )	protected WebElement menuMailboxFoldersSent;
+	@FindBy( css = "a#nav-mailboxes-view-folder-3" )	protected WebElement menuMailboxFoldersArchived;
 
 	@FindBy( css = "div.app-navigation-global p" )  protected WebElement textWelcome;
 	@FindBy( css = "div.app-navigation-global" )    protected WebElement textWelcome2;

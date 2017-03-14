@@ -220,9 +220,8 @@ public class AccountSteps
 		manager.log.infoFormat( "I want to see the %s folder", folderName );
 
 		Folder.Builtin folder = Folder.Builtin.valueOf( folderName );
-		currentPage.menu.clickFolder( folder );
+		folderPage = currentPage.menu.clickFolder( folder );
 
-		folderPage = new MailboxesFolderPage( manager.driver );
 		currentPage = folderPage;
 	}
 

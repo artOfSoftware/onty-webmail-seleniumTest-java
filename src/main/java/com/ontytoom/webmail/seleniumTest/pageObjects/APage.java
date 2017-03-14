@@ -132,7 +132,7 @@ public class APage
 		}
 	}
 
-	public boolean checkIfUrlMatchesWait( String expectedUrlMatches )
+	public boolean checkUrlMatchesWait(String expectedUrlMatches )
 	{
 		WebDriverWait wait = new WebDriverWait( driver, (long)Config.timeoutS );
 		try

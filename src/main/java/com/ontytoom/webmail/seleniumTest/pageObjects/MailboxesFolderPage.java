@@ -18,8 +18,8 @@ public class MailboxesFolderPage extends APage
 
 	@FindBy( css="div.app-main table tr" ) List<WebElement> rowsMessages;
 
-	By locTextSubject     = By.xpath( "td[3]" );
-	By locLinkReadMessage = By.xpath( "td[5]" );
+	By locTextSubject     = By.xpath( "./td[3]" );
+	By locLinkReadMessage = By.xpath( "./td[5]//a" );
 
 
 	public MailboxesFolderPage( WebDriver driver ) throws WrongPageException
@@ -27,7 +27,7 @@ public class MailboxesFolderPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("mailboxes/folder") )
+		if ( ! driver.getCurrentUrl().matches(".*mailboxes/(\\d+)/folder") )
 			throw new WrongPageException();
 
 		init();
@@ -61,8 +61,11 @@ public class MailboxesFolderPage extends APage
 		WebElement found = null;
 		for ( WebElement tr : rowsMessages )
 		{
-			WebElement td = tr.findElement( locTextSubject );
-			String subject = td.getText();
+			List<WebElement> td = tr.findElements( locTextSubject );
+			if ( td.size() == 0 )
+				continue;
+
+			String subject = td.get(0).getText();
 
 			if ( areEqual( subject, m.subject ) )
 			{

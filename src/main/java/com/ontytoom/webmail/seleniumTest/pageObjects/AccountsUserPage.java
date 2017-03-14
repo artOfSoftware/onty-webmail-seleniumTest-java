@@ -2,7 +2,7 @@ package com.ontytoom.webmail.seleniumTest.pageObjects;
 
 import com.ontytoom.webmail.seleniumTest.exceptions.*;
 import com.ontytoom.webmail.seleniumTest.domainObjects.*;
-import com.ontytoom.webmail.seleniumTest.utils.*;
+
 import static com.ontytoom.webmail.seleniumTest.utils.StringUtil.areEqual;
 
 import org.openqa.selenium.*;
@@ -23,7 +23,7 @@ public class AccountsUserPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! checkIfUrlMatchesWait( ".*/accounts/([\\d]+)/user" ) )
+		if ( ! checkUrlMatchesWait( ".*/accounts/([\\d]+)/user" ) )
 			throw new WrongPageException();
 
 		init();
