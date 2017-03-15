@@ -2,7 +2,6 @@ package com.ontytoom.webmail.seleniumTest.pageObjects;
 
 import com.ontytoom.webmail.seleniumTest.domainObjects.*;
 import com.ontytoom.webmail.seleniumTest.exceptions.*;
-import static com.ontytoom.webmail.seleniumTest.utils.StringUtil.*;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,8 +24,8 @@ public class AccountsSignupPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! checkIfUrlContainsWait("accounts/signup") )
-			throw new WrongPageException();
+		if ( ! checkUrlContainsWait("accounts/signup") )
+			throw new WrongPageException( "Expecting Accounts Signup page" );
 
 		init();
 
@@ -68,7 +67,6 @@ public class AccountsSignupPage extends APage
 		waitForPageToLoad();
 		return new AccountsSignupPage( driver );
 	}
-
 
 
 }

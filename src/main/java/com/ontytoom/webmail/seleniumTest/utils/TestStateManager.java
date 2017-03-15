@@ -38,7 +38,7 @@ public class TestStateManager
 		return (T)currentPage;
 	}
 
-	public boolean isPage(Class c )
+	public boolean isPage( Class c )
 	{
 		return c.isInstance( currentPage );
 	}

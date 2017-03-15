@@ -8,6 +8,7 @@
     <artifactId>onTy-Webmail-SeleniumTest</artifactId>
     <version>0.1</version>
     <description>onTy's Webmail System Selenium Automation</description>
+    <url>https://github.com/ontytoom/onty-webmail-selenium-java</url>
 
     <organization>
         <name>onTy Toom</name>

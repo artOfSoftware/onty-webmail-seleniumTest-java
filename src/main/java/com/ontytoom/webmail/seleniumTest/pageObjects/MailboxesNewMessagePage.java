@@ -23,7 +23,7 @@ public class MailboxesNewMessagePage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! checkIfUrlContainsWait("mailboxes/new") )
+		if ( ! checkUrlContainsWait("mailboxes/new") )
 			throw new WrongPageException("Expecting New Message page");
 
 		init();

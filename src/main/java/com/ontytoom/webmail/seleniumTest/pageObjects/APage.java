@@ -118,7 +118,7 @@ public class APage
 
 	// validation methods
 
-	public boolean checkIfUrlContainsWait( String expectedUrlContains )
+	public boolean checkUrlContainsWait(String expectedUrlContains )
 	{
 		WebDriverWait wait = new WebDriverWait( driver, (long)Config.timeoutS );
 		try
