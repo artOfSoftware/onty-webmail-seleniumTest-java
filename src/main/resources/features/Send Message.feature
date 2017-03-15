@@ -6,7 +6,7 @@ Feature: Send Message
 
   Background:
     Given I am on the 'Login' page
-    And   I enter valid credentials
+    And   I enter valid username and valid password
     And   I want to send a message
 
   Scenario: Send Message

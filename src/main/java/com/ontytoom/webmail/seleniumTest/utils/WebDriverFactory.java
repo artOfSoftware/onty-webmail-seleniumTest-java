@@ -1,24 +1,40 @@
 package com.ontytoom.webmail.seleniumTest.utils;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import static com.ontytoom.webmail.seleniumTest.utils.StringUtil.areEqualIgnoreCase;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.chrome.*;
 import java.util.logging.Level;
 
 /**
  * Created by onTy on 2017-02-11.
  */
+
 public class WebDriverFactory
 {
 
 
 	public static WebDriver CreateDriver()
 	{
-		System.setProperty("webdriver.gecko.driver", "C:/dvt/Selenium/WebDrivers/geckodriver.exe");
-		FirefoxOptions opt = new FirefoxOptions();
-		opt.setLogLevel( Level.WARNING );
-		return new FirefoxDriver( opt );
+		WebDriver driver = null;
+
+		if ( areEqualIgnoreCase( Config.browser, "firefox" ) )
+		{
+			System.setProperty( "webdriver.gecko.driver", Config.firefoxDriverPath );
+			FirefoxOptions opt = new FirefoxOptions();
+			opt.setLogLevel( Level.WARNING );
+			driver = new FirefoxDriver( opt );
+		}
+		else if ( areEqualIgnoreCase( Config.browser, "chrome" ) )
+		{
+			System.setProperty( "webdriver.chrome.driver", Config.chromeDriverPath );
+			driver = new ChromeDriver();
+		}
+		else
+			throw new IllegalArgumentException( "Don't know how to make driver for browser=" + Config.browser );
+
+		return driver;
 	}
 
 }

@@ -1,12 +1,13 @@
 package com.ontytoom.webmail.seleniumTest.utils;
 
-import com.ontytoom.webmail.seleniumTest.exceptions.WrongTestStateException;
-import com.ontytoom.webmail.seleniumTest.pageObjects.APage;
+import com.ontytoom.webmail.seleniumTest.exceptions.*;
+import com.ontytoom.webmail.seleniumTest.pageObjects.*;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by onTy on 2017-03-13.
  */
+
 public class TestStateManager
 {
 

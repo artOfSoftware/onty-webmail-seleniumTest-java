@@ -5,5 +5,8 @@
     <entry key="baseUrl">https://onty-webmail-ruby.herokuapp.com/</entry>
     <entry key="instanceName">user1</entry>
     <entry key="thinktimeS">2.0</entry>
+    <entry key="timeoutS">60.0</entry>
+    <entry key="browser">chrome</entry>
     <entry key="firefoxDriverPath">C:/dvt/Selenium/WebDrivers/geckodriver.exe</entry>
+    <entry key="chromeDriverPath">C:/dvt/Selenium/WebDrivers/chromedriver.exe</entry>
 </properties>

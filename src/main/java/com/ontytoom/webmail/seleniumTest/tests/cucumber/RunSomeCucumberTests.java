@@ -1,8 +1,7 @@
 package com.ontytoom.webmail.seleniumTest.tests.cucumber;
 
-import com.ontytoom.webmail.seleniumTest.utils.Config;
-
 import cucumber.api.CucumberOptions;
+import cucumber.api.java.Before;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
@@ -10,15 +9,10 @@ import org.junit.runner.RunWith;
 @RunWith( Cucumber.class )
 @CucumberOptions(
 	plugin = { "pretty", "html:target/cucumber" },
-	features = { "classpath:features" }
+	features = { "classpath:features/Send Message.feature" }
 	)
-public class RunCucumberTests
+public class RunSomeCucumberTests
 {
-
-	@org.junit.BeforeClass
-	public static void setupAll()
-	{
-		Config.init();
-	}
-
 }
+
+

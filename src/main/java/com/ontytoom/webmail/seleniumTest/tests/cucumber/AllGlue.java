@@ -43,13 +43,13 @@ public class AllGlue
 
 	// cucumber Before and After methods
 
-	@Before
+	@cucumber.api.java.Before
 	public void setup()
 	{
 		this.manager = TestStateManagerFactory.getMyManager();  //"cucumber tests"
 	}
 
-	@After
+	@cucumber.api.java.After
 	public void teardown()
 	{
 		this.manager.finish();
@@ -163,28 +163,43 @@ public class AllGlue
 		manager.setPage( mailboxPage );
 	}
 
-	@When( "^I enter (.+) credentials$" )
-	public void login(String credentialsType)
+	@When( "^I enter valid username and (.+) password$" )
+	public void loginValidUsername( String passwordType )
 	{
-		manager.log.infoFormat( "I enter %s credentials", credentialsType );
+		manager.log.infoFormat( "I enter valid username and %s password", passwordType );
 
 		AccountsLoginPage loginPage = manager.getPage();
 
-		if ( areEqualIgnoreCase( credentialsType, "valid" ) )
+		if ( areEqualIgnoreCase( passwordType, "valid" ) )
 		{
 			User u = TestData.validUsers.get( 0 );
 			AccountsHomePage homePage = loginPage.loginAsValid( u );
 			manager.setPage( homePage );
 		}
-		else if ( areEqualIgnoreCase( credentialsType, "invalid" ) )
+		else if ( areEqualIgnoreCase( passwordType, "invalid" ) )
 		{
-			User u = TestData.invalidUsers.get( 0 );
+			User u = TestData.validUsers.get( 0 );
+			u = u.clone();
+			u.password = u.password + "_invalid";
+
 			loginPage = loginPage.loginAsInvalid( u );
 			manager.setPage( loginPage );
 		}
 		else
 			throw new NotImplementedException();
 
+	}
+
+	@When( "^I enter invalid username$" )
+	public void loginInvalidUsername()
+	{
+		manager.log.infoFormat( "I enter invalid username" );
+
+		AccountsLoginPage loginPage = manager.getPage();
+
+		User u = TestData.invalidUsers.get( 0 );
+		loginPage = loginPage.loginAsInvalid( u );
+		manager.setPage( loginPage );
 	}
 
 	@Then( "^I should find myself on '(.+)' page$" )
