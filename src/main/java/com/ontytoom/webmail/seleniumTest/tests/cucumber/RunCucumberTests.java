@@ -14,11 +14,4 @@ import org.junit.runner.RunWith;
 	)
 public class RunCucumberTests
 {
-
-	@org.junit.BeforeClass
-	public static void setupAll()
-	{
-		Config.init();
-	}
-
 }

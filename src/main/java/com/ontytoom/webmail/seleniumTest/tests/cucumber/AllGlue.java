@@ -22,27 +22,20 @@ import java.util.List;
 public class AllGlue
 {
 
-	private TestStateManager manager;
-//	private APage currentPage;
+	private TestStateManager manager = null;
+	private Message          message = null;
+	private Folder           folder  = null;
 
-//	private AccountsLoginPage loginPage;
-//	private AccountsSignupPage signupPage;
-//	private AccountsHomePage homePage;
-//	private MailboxesPage mailboxPage;
-//	private MailboxesNewMessagePage newMessagePage;
-//	private MailboxesFolderPage folderPage;
-//	private MailboxesMessagePage messagePage;
-//
-	private Message message;
 
-	// ctor and dtor
+	// JUnit BeforeClass
 
-//	public AccountSteps()
-//	{
-//	}
+	@org.junit.BeforeClass
+	public static void setupAll()
+	{
+		Config.init();
+	}
 
 	// cucumber Before and After methods
-
 	@cucumber.api.java.Before
 	public void setup()
 	{
