@@ -27,7 +27,7 @@ public class MailboxesFolderPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().matches(".*mailboxes/(\\d+)/folder") )
+		if ( ! checkUrlMatchesWait(".*mailboxes/(\\d+)/folder") )
 			throw new WrongPageException();
 
 		init();
@@ -53,6 +53,25 @@ public class MailboxesFolderPage extends APage
 
 		waitForPageToLoad();
 		return new MailboxesMessagePage( driver );
+	}
+
+	public MailboxesMessagePage clickReadMessageById( int id )
+	{
+		int nrMessages = getNrMessages();
+		if ( id < 1 || id > nrMessages )
+			throw new IllegalArgumentException( "id must be in [1," + nrMessages + "]" );
+
+		WebElement tr = rowsMessages.get( id );
+		WebElement linkRead = tr.findElement( locLinkReadMessage );
+		click( linkRead );
+
+		waitForPageToLoad();
+		return new MailboxesMessagePage( driver );
+	}
+
+	public int getNrMessages()
+	{
+		return rowsMessages.size() - 1;
 	}
 
 

@@ -18,7 +18,7 @@ public class AccountsPasswordPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("accounts/password") )
+		if ( ! checkUrlContainsWait("accounts/password") )
 			throw new WrongPageException();
 
 		init();

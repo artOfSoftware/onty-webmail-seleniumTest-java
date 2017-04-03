@@ -11,10 +11,10 @@ public class MailboxesPage extends APage
 	public MailboxesPage(WebDriver driver ) throws WrongPageException
 	{
 		super(driver);
-		
-		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("mailboxes/index") )
+
+		if ( ! checkUrlContainsWait("mailboxes/index") )
 			throw new WrongPageException();
+		// check url to make sure we are on the correct page
 
 		init();
 	}

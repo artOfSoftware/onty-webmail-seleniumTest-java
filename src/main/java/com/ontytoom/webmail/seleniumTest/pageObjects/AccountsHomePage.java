@@ -14,7 +14,7 @@ public class AccountsHomePage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("accounts/home") )
+		if ( ! checkUrlContainsWait("accounts/home") )
 			throw new WrongPageException();
 
 		init();

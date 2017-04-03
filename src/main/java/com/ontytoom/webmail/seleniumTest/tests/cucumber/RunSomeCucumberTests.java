@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 @RunWith( Cucumber.class )
 @CucumberOptions(
 	plugin = { "pretty", "html:target/cucumber" },
-	features = { "classpath:features/Send Message.feature" }
+	features = { "classpath:features/Create folder and Move message into it.feature" }
 	)
 public class RunSomeCucumberTests
 {

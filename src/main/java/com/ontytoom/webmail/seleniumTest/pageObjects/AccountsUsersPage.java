@@ -19,7 +19,7 @@ public class AccountsUsersPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("accounts/users") )
+		if ( ! checkUrlContainsWait( "accounts/users" ) )
 			throw new WrongPageException();
 
 		init();

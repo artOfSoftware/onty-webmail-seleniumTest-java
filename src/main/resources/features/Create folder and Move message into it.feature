@@ -10,7 +10,7 @@ Feature: Create folder and move message into it
 
   Scenario: Create custom folder and move message there
     When  I want to create a custom folder
-    And   I enter folder name 'My Folder {rs}'
+    And   I enter folder name 'My Folder {rs}' and click Create Folder
     Then  I should find myself on 'Folder' page
     And   The folder should have 0 messages
     When  I want to see the Inbox folder

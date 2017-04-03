@@ -24,7 +24,7 @@ public class AccountsLoginPage extends APage
 		super(driver);
 		
 		// check url to make sure we are on the correct page
-		if ( ! driver.getCurrentUrl().contains("accounts/login") )
+		if ( ! checkUrlContainsWait("accounts/login") )
 			throw new WrongPageException();
 
 		// init element

@@ -23,8 +23,8 @@ public class AllGlue
 {
 
 	private TestStateManager manager = null;
-	private Message          message = null;
-	private Folder           folder  = null;
+	private Message message = null;
+	private Folder folder = null;
 
 
 	// JUnit BeforeClass
@@ -61,8 +61,7 @@ public class AllGlue
 			AccountsLoginPage loginPage = AccountsLoginPage.Go( manager.driver );
 			manager.setPage( loginPage );
 			//currentPage = loginPage;
-		}
-		else
+		} else
 			throw new NotImplementedException();
 	}
 
@@ -73,7 +72,7 @@ public class AllGlue
 
 		// only valid on login page
 		//if ( !(currentPage instanceof AccountsLoginPage) )
-		if ( ! manager.isPage( AccountsLoginPage.class ) )
+		if ( !manager.isPage( AccountsLoginPage.class ) )
 			throw new WrongTestStateException( "Create account is only allowed from the Login page" );
 		AccountsLoginPage loginPage = manager.getPage();
 
@@ -98,14 +97,32 @@ public class AllGlue
 		manager.setPage( newMessagePage );
 	}
 
+	@Given( "^I have at least 1 message in my Inbox$" )
+	public void checkHaveAtLeast1MessageInInbox()
+	{
+		manager.log.infoFormat( "I have at least 1 message in my Inbox" );
+
+		// only valid when user is logged in - dont yet have a way to check
+
+		APage anyPage = manager.getPage();
+
+		MailboxesFolderPage inboxPage = anyPage.menu.clickFolder( Folder.Builtin.Inbox );
+		int nrMessages = inboxPage.getNrMessages();
+		if ( nrMessages < 1 )
+			throw new IndeterminateException( "preconditon is not met: muct have at least 1 message in inbox, but have " + nrMessages );
+
+		manager.setPage( inboxPage );
+	}
+
+
 	@When( "^I enter valid new account information:$" )
 	public void signupValid(DataTable data)
 	{
 		manager.log.infoFormat( "I enter new account information: %s", ArrayUtils.toString( data.getGherkinRows().get( 1 ).getCells().toArray() ) );
 
 		// only valid on signup page
-		if ( ! manager.isPage( AccountsSignupPage.class ) )
-		//	if ( !(currentPage instanceof AccountsSignupPage) )
+		if ( !manager.isPage( AccountsSignupPage.class ) )
+			//	if ( !(currentPage instanceof AccountsSignupPage) )
 			throw new WrongTestStateException( "Signup is only allowed from the Signup page" );
 
 		//HashMap<String,String> map = data.getTableConverter().toMap( data, "".getClass(), "".getClass() );
@@ -127,21 +144,21 @@ public class AllGlue
 	}
 
 	@When( "^I enter valid new message information:$" )
-	public void newMessageValid( DataTable data)
+	public void newMessageValid(DataTable data)
 	{
 		manager.log.infoFormat( "I enter valid new message info: %s", ArrayUtils.toString( data.getGherkinRows().get( 1 ).getCells().toArray() ) );
 
 		// only valid on signup page
-		if ( ! manager.isPage(  MailboxesNewMessagePage.class ) )
-		//	if ( !(currentPage instanceof MailboxesNewMessagePage) )
+		if ( !manager.isPage( MailboxesNewMessagePage.class ) )
+			//	if ( !(currentPage instanceof MailboxesNewMessagePage) )
 			throw new WrongTestStateException( "Sending a message is only valid on New Message page" );
 
 		List<DataTableRow> rows = data.getGherkinRows();
 		List<String> rowAsStrings = rows.get( 1 ).getCells();
 
-		String to      = runMacros( rowAsStrings.get( 0 ) );
+		String to = runMacros( rowAsStrings.get( 0 ) );
 		String subject = runMacros( rowAsStrings.get( 1 ) );
-		String text    = runMacros( rowAsStrings.get( 2 ) );
+		String text = runMacros( rowAsStrings.get( 2 ) );
 
 		MailboxesNewMessagePage newMessagePage = manager.getPage();
 
@@ -157,7 +174,7 @@ public class AllGlue
 	}
 
 	@When( "^I enter valid username and (.+) password$" )
-	public void loginValidUsername( String passwordType )
+	public void loginValidUsername(String passwordType)
 	{
 		manager.log.infoFormat( "I enter valid username and %s password", passwordType );
 
@@ -168,8 +185,7 @@ public class AllGlue
 			User u = TestData.validUsers.get( 0 );
 			AccountsHomePage homePage = loginPage.loginAsValid( u );
 			manager.setPage( homePage );
-		}
-		else if ( areEqualIgnoreCase( passwordType, "invalid" ) )
+		} else if ( areEqualIgnoreCase( passwordType, "invalid" ) )
 		{
 			User u = TestData.validUsers.get( 0 );
 			u = u.clone();
@@ -177,9 +193,8 @@ public class AllGlue
 
 			loginPage = loginPage.loginAsInvalid( u );
 			manager.setPage( loginPage );
-		}
-		else
-			throw new NotImplementedException();
+		} else
+			throw new PendingException();
 
 	}
 
@@ -195,33 +210,130 @@ public class AllGlue
 		manager.setPage( loginPage );
 	}
 
+	@When( "^I want to see the (.+) folder$" )
+	public void gotoFolder(String folderName)
+	{
+		manager.log.infoFormat( "I want to see the %s folder", folderName );
+
+		APage anyPage = manager.getPage();
+
+		Folder.Builtin folder = Folder.Builtin.valueOf( folderName );
+		MailboxesFolderPage folderPage = anyPage.menu.clickFolder( folder );
+
+		manager.setPage( folderPage );
+	}
+
+	@When( "^I want to create a custom folder$" )
+	public void createFolder()
+	{
+		manager.log.infoFormat( "I want to create a custom folder" );
+
+		APage anyPage = manager.getPage();
+
+		MailboxesFoldersPage foldersPage = anyPage.menu.clickFolders();
+		MailboxesNewFolderPage newFolderPage = foldersPage.clickCreateFolder();
+
+		manager.setPage( newFolderPage );
+	}
+
+	@When( "I enter folder name '(.*)' and click Create Folder" )
+	public void enterFolderName(String folderName)
+	{
+		manager.log.infoFormat( "I enter folder name '%s' and click Create Folder", folderName );
+
+		if ( !manager.isPage( MailboxesNewFolderPage.class ) )
+			throw new WrongTestStateException( "to perform this action you must be on New Folder page" );
+
+		this.folder = new Folder();
+		this.folder.name = folderName;
+
+		MailboxesNewFolderPage newFolderPage = manager.getPage();
+
+		MailboxesFolderPage folderPage = newFolderPage.enterFolderInfoAndClickCreate( folderName );
+
+		manager.setPage( folderPage );
+	}
+
+	@When( "^I want to see the message$" )
+	public void gotoMessage()
+	{
+		manager.log.infoFormat( "I want to see the message" );
+
+		// only makes sense on Folder page
+		if ( !manager.isPage( MailboxesFolderPage.class ) )
+			throw new WrongTestStateException( "to see the Message we must be on Folder page" );
+
+		MailboxesFolderPage folderPage = manager.getPage();
+
+		MailboxesMessagePage messagePage = folderPage.clickReadMessage( message );
+		manager.setPage( messagePage );
+	}
+
+	@When( "I want to read the message #(\\d+) in the folder" )
+	public void readMessageById( int id )
+	{
+		manager.log.infoFormat( "I want to read the message #%d in the folder" );
+
+		// only makes sense on Folder page
+		if ( !manager.isPage( MailboxesFolderPage.class ) )
+			throw new WrongTestStateException( "to read the Message we must be on Folder page" );
+
+		MailboxesFolderPage folderPage = manager.getPage();
+
+		MailboxesMessagePage messagePage = folderPage.clickReadMessageById( id );
+		manager.setPage( messagePage );
+	}
+
+	@When( "^I move the message to custom folder$" )
+	public void moveMessageToCustomFolder()
+	{
+		manager.log.infoFormat( "I move the message to custom folder" );
+
+		// only valid on Message page
+		if ( ! manager.isPage( MailboxesMessagePage.class ) )
+			throw new WrongTestStateException( "Must be on Message page" );
+
+		// make sure previous steps left us a folder
+		if ( this.folder == null )
+			throw new WrongTestStateException( "Previous steps did not leave a folder, so cannot continue." );
+
+		MailboxesMessagePage messagePage = manager.getPage();
+
+		messagePage.selectMoveToFolder( folder );
+		messagePage = messagePage.clickMoveMessage();
+
+		manager.setPage( messagePage );
+	}
+
+
+
 	@Then( "^I should find myself on '(.+)' page$" )
-	public void checkCurrentPage( String pageName )
+	public void checkCurrentPage(String pageName)
 	{
 		manager.log.infoFormat( "I should find myself on '%s' page", pageName );
 
 		if ( areEqualIgnoreCase( pageName, "login" ) )
 		{
 			if ( !manager.isPage( AccountsLoginPage.class ) )
-				throw new WrongPageException( "I should find myself on Login page ");   //, but am on " + currentPage.getClass().getName() );
+				throw new WrongPageException( "I should find myself on Login page " );   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "account" ) )
 		{
 			if ( !manager.isPage( AccountsHomePage.class ) )
-				throw new WrongPageException( "I should find myself on Account page");   //, but am on " + currentPage.getClass().getName() );
+				throw new WrongPageException( "I should find myself on Account page" );   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "mailbox" ) )
 		{
 			if ( !manager.isPage( MailboxesPage.class ) )
-				throw new WrongPageException( "I should find myself on Mailbox page");   //, but am on " + currentPage.getClass().getName() );
+				throw new WrongPageException( "I should find myself on Mailbox page" );   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "folder" ) )
 		{
 			if ( !manager.isPage( MailboxesFolderPage.class ) )
-				throw new WrongPageException( "I should find myself on Folder page");   //, but am on " + currentPage.getClass().getName() );
+				throw new WrongPageException( "I should find myself on Folder page" );   //, but am on " + currentPage.getClass().getName() );
 		} else if ( areEqualIgnoreCase( pageName, "message" ) )
 		{
 			if ( !manager.isPage( MailboxesMessagePage.class ) )
-				throw new WrongPageException( "I should find myself on Message page");   //, but am on " + currentPage.getClass().getName() );
+				throw new WrongPageException( "I should find myself on Message page" );   //, but am on " + currentPage.getClass().getName() );
 		} else
-			throw new NotImplementedException();
+			throw new PendingException();
 	}
 
 	@Then( "^I should see error message saying '(.+)'$" )
@@ -246,19 +358,6 @@ public class AllGlue
 			throw new ValidationException( "Expected error text not found" );
 	}
 
-	@When( "^I want to see the (.+) folder$" )
-	public void gotoFolder(String folderName)
-	{
-		manager.log.infoFormat( "I want to see the %s folder", folderName );
-
-		APage anyPage = manager.getPage();
-
-		Folder.Builtin folder = Folder.Builtin.valueOf( folderName );
-		MailboxesFolderPage folderPage = anyPage.menu.clickFolder( folder );
-
-		manager.setPage( folderPage );
-	}
-
 	@Then( "^I should see message listed$" )
 	public void checkIsMessageListedInFolder()
 	{
@@ -278,36 +377,53 @@ public class AllGlue
 			throw new ValidationException( "message is not listed" );
 	}
 
-
-	@When( "^I want to see the message$" )
-	public void gotoMessage()
-	{
-		manager.log.infoFormat( "I want to see the message" );
-
-		// only makes sense on Folder page
-		if ( !manager.isPage( MailboxesFolderPage.class ) )
-			throw new WrongTestStateException( "to see the Message we must be on Folder page" );
-
-		MailboxesFolderPage folderPage = manager.getPage();
-
-		MailboxesMessagePage messagePage = folderPage.clickReadMessage( message );
-		manager.setPage( messagePage );
-	}
-
 	@Then( "^I should see the details of the message$" )
 	public void checkMessageDetails()
 	{
 		manager.log.infoFormat( "I should see the details of the message" );
 
-		// only makes sense on Folder page
+		// only makes sense on Message page
 		if ( !manager.isPage( MailboxesMessagePage.class ) )
 			throw new WrongTestStateException( "to check Message details we must be on Message page" );
 
 		MailboxesMessagePage messagePage = manager.getPage();
 
-		if ( ! messagePage.checkMessageDetails( message ) )
+		if ( !messagePage.checkMessageDetails( message ) )
 			throw new ValidationException( "Message details are wrong" );
 
 	}
 
+	@Then( "^The folder should have (\\d+) messages$" )
+	public void checkNrOfMessagesInFolder( int nrMessagesExpected )
+	{
+		manager.log.infoFormat( "The folder should have %d messages", nrMessagesExpected );
+
+		// only makes sense on folder page
+		if (  ! manager.isPage( MailboxesFolderPage.class ) )
+			throw new WrongTestStateException( "to check how many messages are listed we must be on Folder page" );
+
+		MailboxesFolderPage folderPage = manager.getPage();
+		int nrMessages = folderPage.getNrMessages();
+
+		if ( nrMessages != nrMessagesExpected )
+			throw new ValidationException( "found " + nrMessages + " messages but expecting " + nrMessagesExpected );
+
+		manager.setPage( folderPage );
+	}
+
+
+	@Then( "^The message should be in custom folder$" )
+	public void checkMessageIsInFolder()
+	{
+		manager.log.infoFormat( "The message should be in custom folder" );
+
+		// only makes sense on Message page
+		if ( !manager.isPage( MailboxesMessagePage.class ) )
+			throw new WrongTestStateException( "to check which Folder message is in, we must be on Message page" );
+
+		MailboxesMessagePage messagePage = manager.getPage();
+
+		if ( !messagePage.checkInFolder( folder ) )
+			throw new ValidationException( "Message is supposed to be in custom Folder '" + folder.name + "'" );
+	}
 }
