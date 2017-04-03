@@ -49,7 +49,7 @@ public class MailboxesMessagePage extends APage
 	public void selectMoveToFolder( Folder folder )
 	{
 		Select select = new Select( selectFolder );
-		select.selectByValue( folder.name );
+		select.selectByVisibleText( folder.name );
 	}
 
 	public MailboxesMessagePage clickMoveMessage()
@@ -91,7 +91,7 @@ public class MailboxesMessagePage extends APage
 
 		String text = tdInFolder.get(0).getText();
 
-		boolean isSame = ( ! text.contentEquals( folder.name ) );
+		boolean isSame = text.contentEquals( folder.name );
 
 		return isSame;
 	}

@@ -272,7 +272,7 @@ public class AllGlue
 	@When( "I want to read the message #(\\d+) in the folder" )
 	public void readMessageById( int id )
 	{
-		manager.log.infoFormat( "I want to read the message #%d in the folder" );
+		manager.log.infoFormat( "I want to read the message # %d in the folder", id );
 
 		// only makes sense on Folder page
 		if ( !manager.isPage( MailboxesFolderPage.class ) )
