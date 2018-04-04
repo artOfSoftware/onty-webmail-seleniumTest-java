@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ontytoom</groupId>
     <artifactId>onTy-Webmail-SeleniumTest</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <description>onTy's Webmail System Selenium Automation</description>
     <url>https://github.com/ontytoom/onty-webmail-selenium-java</url>
 
